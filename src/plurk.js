@@ -69,8 +69,12 @@ export default class Plurk {
     let timeoutAction = new Promise((resolve, reject) => {
       setTimeout(reject, timeout, offset);
     })
+    const options = {
+      agent:new https.Agent({rejectUnauthorized:false})
+    };
+
     let fetchAction = new Promise((resolve, reject) => {
-      fetch(`${pollingUrl}&offset=${offset}`)
+      fetch(`${pollingUrl}&offset=${offset}`, options)
         .then(response => response.text())
         .then(text => {
           let from = text.indexOf('{');
